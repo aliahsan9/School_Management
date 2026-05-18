@@ -5,7 +5,7 @@ namespace SchoolManagement.Domain.Entities;
 
 public class Teacher : TenantEntity
 {
-    public Guid UserId { get; set; }
+    public Guid? UserId { get; set; }
 
     public string FirstName { get; set; } = string.Empty;
 
@@ -32,7 +32,7 @@ public class Teacher : TenantEntity
     // Navigation
     public Tenant Tenant { get; set; } = null!;
 
-    public User User { get; set; } = null!;
+    public User? User { get; set; }
 
     public ICollection<Class> Classes { get; set; } = new List<Class>();
 

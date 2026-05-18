@@ -12,7 +12,8 @@ public class TeachersController : ControllerBase
 {
     private readonly ITeacherService _teacherService;
 
-    public TeachersController(ITeacherService teacherService)
+    public TeachersController(
+        ITeacherService teacherService)
     {
         _teacherService = teacherService;
     }
@@ -20,47 +21,90 @@ public class TeachersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var result = await _teacherService.GetAllAsync();
-        return Ok(result);
+        var teachers = await _teacherService.GetAllAsync();
+
+        return Ok(teachers);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var result = await _teacherService.GetByIdAsync(id);
+        var teacher = await _teacherService.GetByIdAsync(id);
 
-        if (result == null)
-            return NotFound();
+        if (teacher == null)
+        {
+            return NotFound(new
+            {
+                message = "Teacher not found"
+            });
+        }
 
-        return Ok(result);
+        return Ok(teacher);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateTeacherDto dto)
+    public async Task<IActionResult> Create(
+        [FromBody] CreateTeacherDto dto)
     {
-        var id = await _teacherService.CreateAsync(dto);
-        return Ok(new { TeacherId = id });
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var teacherId =
+            await _teacherService.CreateAsync(dto);
+
+        return Ok(new
+        {
+            message = "Teacher created successfully",
+            teacherId = teacherId
+        });
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, UpdateTeacherDto dto)
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateTeacherDto dto)
     {
-        var result = await _teacherService.UpdateAsync(id, dto);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
-        if (!result)
-            return NotFound();
+        var updated =
+            await _teacherService.UpdateAsync(id, dto);
 
-        return Ok("Teacher updated successfully");
+        if (!updated)
+        {
+            return NotFound(new
+            {
+                message = "Teacher not found"
+            });
+        }
+
+        return Ok(new
+        {
+            message = "Teacher updated successfully"
+        });
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var result = await _teacherService.DeleteAsync(id);
+        var deleted =
+            await _teacherService.DeleteAsync(id);
 
-        if (!result)
-            return NotFound();
+        if (!deleted)
+        {
+            return NotFound(new
+            {
+                message = "Teacher not found"
+            });
+        }
 
-        return Ok("Teacher deleted successfully");
+        return Ok(new
+        {
+            message = "Teacher deleted successfully"
+        });
     }
 }

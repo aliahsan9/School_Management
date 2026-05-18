@@ -22,12 +22,23 @@ public class TeacherService : ITeacherService
 
     public async Task<Guid> CreateAsync(CreateTeacherDto dto)
     {
+        // Validate UserId if provided
+        if (dto.UserId.HasValue)
+        {
+            var userExists = await _context.Users
+                .AnyAsync(x => x.Id == dto.UserId.Value);
+
+            if (!userExists)
+                throw new Exception("Selected user does not exist.");
+        }
+
         var teacher = new Teacher
         {
             TenantId = _tenantProvider.GetTenantId(),
 
             FirstName = dto.FirstName,
             LastName = dto.LastName,
+
             Gender = (Gender)dto.Gender,
             DateOfBirth = dto.DateOfBirth,
 
@@ -40,7 +51,8 @@ public class TeacherService : ITeacherService
             JoiningDate = dto.JoiningDate,
             Salary = dto.Salary,
 
-            UserId = dto.UserId ?? Guid.Empty,
+            // IMPORTANT FIX
+            UserId = dto.UserId ?? null,
 
             IsActive = true
         };
@@ -52,21 +64,6 @@ public class TeacherService : ITeacherService
         return teacher.Id;
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
-    {
-        var teacher = await _context.Teachers
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        if (teacher == null)
-            return false;
-
-        _context.Teachers.Remove(teacher);
-
-        await _context.SaveChangesAsync();
-
-        return true;
-    }
-
     public async Task<List<TeacherResponseDto>> GetAllAsync()
     {
         var teachers = await _context.Teachers
@@ -76,37 +73,47 @@ public class TeacherService : ITeacherService
         return teachers.Select(t => new TeacherResponseDto
         {
             Id = t.Id,
-            FullName = t.FirstName + " " + t.LastName,
+            FullName = $"{t.FirstName} {t.LastName}",
             Gender = t.Gender.ToString(),
+
             Qualification = t.Qualification,
             ExperienceYears = t.ExperienceYears,
+
             PhoneNumber = t.PhoneNumber,
+
             Salary = t.Salary,
+
             IsActive = t.IsActive,
+
             TenantId = t.TenantId
         }).ToList();
     }
 
     public async Task<TeacherResponseDto?> GetByIdAsync(Guid id)
     {
-        var t = await _context.Teachers
+        var teacher = await _context.Teachers
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (t == null)
+        if (teacher == null)
             return null;
 
         return new TeacherResponseDto
         {
-            Id = t.Id,
-            FullName = t.FirstName + " " + t.LastName,
-            Gender = t.Gender.ToString(),
-            Qualification = t.Qualification,
-            ExperienceYears = t.ExperienceYears,
-            PhoneNumber = t.PhoneNumber,
-            Salary = t.Salary,
-            IsActive = t.IsActive,
-            TenantId = t.TenantId
+            Id = teacher.Id,
+            FullName = $"{teacher.FirstName} {teacher.LastName}",
+            Gender = teacher.Gender.ToString(),
+
+            Qualification = teacher.Qualification,
+            ExperienceYears = teacher.ExperienceYears,
+
+            PhoneNumber = teacher.PhoneNumber,
+
+            Salary = teacher.Salary,
+
+            IsActive = teacher.IsActive,
+
+            TenantId = teacher.TenantId
         };
     }
 
@@ -120,11 +127,30 @@ public class TeacherService : ITeacherService
 
         teacher.FirstName = dto.FirstName;
         teacher.LastName = dto.LastName;
+
         teacher.PhoneNumber = dto.PhoneNumber;
         teacher.Address = dto.Address;
+
         teacher.ExperienceYears = dto.ExperienceYears;
+
         teacher.Salary = dto.Salary;
+
         teacher.IsActive = dto.IsActive;
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        var teacher = await _context.Teachers
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        if (teacher == null)
+            return false;
+
+        _context.Teachers.Remove(teacher);
 
         await _context.SaveChangesAsync();
 
