@@ -5,7 +5,7 @@ using SchoolManagement.Application.Interfaces;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Infrastructure.Persistence;
 
-namespace SchoolManagement.Application.Services;
+namespace SchoolManagement.Infrastructure.Services;
 
 public class AuthService : IAuthService
 {
