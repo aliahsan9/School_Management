@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolManagement.Application.Interfaces;
-using SchoolManagement.Application.Services;
 using SchoolManagement.Infrastructure.Persistence;
 using SchoolManagement.Infrastructure.Services;
 
@@ -15,7 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpContextAccessor(); 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
