@@ -29,14 +29,17 @@ public class Student : TenantEntity
 
     public bool IsActive { get; set; } = true;
 
-    // Navigation
+    // Navigation Properties
     public Tenant Tenant { get; set; } = null!;
 
     public User? User { get; set; }
 
-    public ICollection<StudentClass> StudentClasses { get; set; } = new List<StudentClass>();
+    public ICollection<StudentClass> StudentClasses { get; set; }
+        = new List<StudentClass>();
 
-    public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
+    public ICollection<Attendance> Attendances { get; set; }
+        = new List<Attendance>();
 
-    public ICollection<Fee> Fees { get; set; } = new List<Fee>();
+    public ICollection<Fee> Fees { get; set; }
+        = new List<Fee>();
 }

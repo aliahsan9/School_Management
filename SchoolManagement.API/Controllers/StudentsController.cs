@@ -21,6 +21,7 @@ public class StudentsController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var result = await _studentService.GetAllAsync();
+
         return Ok(result);
     }
 
@@ -36,21 +37,35 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateStudentDto dto)
+    public async Task<IActionResult> Create(
+        [FromBody] CreateStudentDto dto)
     {
         var id = await _studentService.CreateAsync(dto);
-        return Ok(new { StudentId = id });
+
+        return Ok(new
+        {
+            Message = "Student created successfully",
+            StudentId = id
+        });
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(Guid id, UpdateStudentDto dto)
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateStudentDto dto)
     {
         var result = await _studentService.UpdateAsync(id, dto);
 
         if (!result)
-            return NotFound();
+            return NotFound(new
+            {
+                Message = "Student not found"
+            });
 
-        return Ok("Student updated successfully");
+        return Ok(new
+        {
+            Message = "Student updated successfully"
+        });
     }
 
     [HttpDelete("{id}")]
@@ -59,8 +74,14 @@ public class StudentsController : ControllerBase
         var result = await _studentService.DeleteAsync(id);
 
         if (!result)
-            return NotFound();
+            return NotFound(new
+            {
+                Message = "Student not found"
+            });
 
-        return Ok("Student deleted successfully");
+        return Ok(new
+        {
+            Message = "Student deleted successfully"
+        });
     }
 }
