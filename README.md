@@ -67,3 +67,71 @@ It is designed to work seamlessly with an Angular frontend or any REST-based cli
 ## Architecture
 
 The project follows **Clean Architecture**:
+
+SchoolManagement
+│
+├── SchoolManagement.Domain
+│ └── Entities, Enums, Common Base Classes
+│
+├── SchoolManagement.Application
+│ └── DTOs, Interfaces, Business Logic Contracts
+│
+├── SchoolManagement.Infrastructure
+│ └── EF Core DbContext, Services, Repository Implementations
+│
+└── SchoolManagement.API
+└── Controllers, Middleware, Program.cs
+
+
+---
+
+## Modules
+
+### Student Module
+- Create Student
+- Update Student
+- Delete Student
+- Get All Students
+- Get Student By ID
+
+### Teacher Module
+- CRUD operations
+- Subject assignment (if implemented)
+
+### Class Module
+- Class creation
+- Teacher assignment
+
+### Subject Module
+- Subject management
+
+### Attendance Module
+- Mark attendance for class
+- Get class attendance by date
+- Get student attendance history
+
+### Fee Module
+- Create fee record
+- View fee status
+- Calculate paid / remaining amount
+- Track payments
+
+---
+
+## Setup Instructions
+
+### 1. Clone Repository
+
+```bash
+git clone https://github.com/your-repo/school-management-backend.git
+cd school-management-backend
+
+2. Install Dependencies
+
+Ensure you have:
+
+.NET SDK installed
+SQL Server running
+3. Configure Database
+
+Update appsettings.json:
