@@ -62,28 +62,6 @@ It is designed to work seamlessly with an Angular frontend or any REST-based cli
 - Swagger (API testing)
 - Dependency Injection
 
----
-
-## Architecture
-
-The project follows **Clean Architecture**:
-
-SchoolManagement
-│
-├── SchoolManagement.Domain
-│ └── Entities, Enums, Common Base Classes
-│
-├── SchoolManagement.Application
-│ └── DTOs, Interfaces, Business Logic Contracts
-│
-├── SchoolManagement.Infrastructure
-│ └── EF Core DbContext, Services, Repository Implementations
-│
-└── SchoolManagement.API
-└── Controllers, Middleware, Program.cs
-
-
----
 
 ## Modules
 
@@ -98,8 +76,7 @@ SchoolManagement
 - CRUD operations
 - Subject assignment (if implemented)
 
-### Cla
-ss Module
+### Class Module
 - Class creation
 - Teacher assignment
 
@@ -122,19 +99,17 @@ ss Module
 
 ### 1. Clone Repository
 
-git clone https://github.com/your-repo/school-management-backend.git
+git clone https://github.com/aliahsan9/School_Management.git
 cd school-management-backend
 
 2. Install Dependencies
 
-Ensure you have:
+Ensure you have .NET SDK installed and properSQL Server running.
 
-.NET SDK installed
-SQL Server running
 3. Configure Database
 
 Update appsettings.json:
-
+```
 {
   "ConnectionStrings": {
     "DefaultConnection": "Server=YOUR_SERVER;Database=SchoolDB;Trusted_Connection=True;TrustServerCertificate=True;"
@@ -145,19 +120,20 @@ Update appsettings.json:
     "Audience": "SchoolClient"
   }
 }
+```
 
 Database Migrations
 
 Run the following commands:
-
+```
 dotnet ef migrations add InitialCreate
 dotnet ef database update
-
+```
 If schema changes occur:
-
+```
 dotnet ef migrations add UpdatedSchema
 dotnet ef database update
-
+```
 API Authentication
 
 This system uses JWT authentication.
@@ -171,21 +147,21 @@ Authorization: Bearer YOUR_TOKEN
 
 API Endpoints
 Students
-
+```
 GET    /api/students
 GET    /api/students/{id}
 POST   /api/students
 PUT    /api/students/{id}
 DELETE /api/students/{id}
-
+```
 Attendance
-
+```
 POST /api/attendance/mark
 GET  /api/attendance/class?classId={id}&date={date}
 GET  /api/attendance/student/{studentId}
-
+```
 Fees
-
+```
 GET  /api/fees
 GET  /api/fees/{id}
 POST /api/fees
@@ -195,7 +171,7 @@ GET    /api/teachers
 POST   /api/teachers
 PUT    /api/teachers/{id}
 DELETE /api/teachers/{id}
-
+```
 Common Issues & Fixes
 1. 400 Bad Request (API errors)
 
@@ -217,7 +193,7 @@ Correct ID is passed
 4. CORS Issues
 
 Enable in Program.cs:
-
+```
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -230,7 +206,7 @@ builder.Services.AddCors(options =>
 });
 
 app.UseCors("AllowAll");
-
+```
 
 Performance Notes
 Use AsNoTracking() for read-only queries
@@ -255,3 +231,4 @@ Developed as part of a full-stack School Management System using:
 
 ASP.NET Core Backend
 Angular Frontend
+Microsoft SQL Server
