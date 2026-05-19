@@ -13,10 +13,11 @@ public class Attendance : TenantEntity
 
     public AttendanceStatus Status { get; set; }
 
-    // Navigation
-    public Tenant Tenant { get; set; } = null!;
+    // Navigation Properties
 
-    public Student Student { get; set; } = null!;
+    public virtual Tenant Tenant { get; set; } = null!;
 
-    public Class Class { get; set; } = null!;
+    public virtual Student Student { get; set; } = null!;
+
+    public virtual Class Class { get; set; } = null!;
 }

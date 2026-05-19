@@ -2,7 +2,11 @@
 
 public class AttendanceResponseDto
 {
+    public Guid Id { get; set; }
+
     public Guid StudentId { get; set; }
+
+    public Guid ClassId { get; set; }
 
     public string StudentName { get; set; } = string.Empty;
 
