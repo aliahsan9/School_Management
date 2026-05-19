@@ -13,12 +13,13 @@ public class Fee : TenantEntity
 
     public DateTime DueDate { get; set; }
 
-    public FeeStatus Status { get; set; }
+    public FeeStatus Status { get; set; } = FeeStatus.Pending;
 
     // Navigation
-    public Tenant Tenant { get; set; } = null!;
+    public virtual Tenant Tenant { get; set; } = null!;
 
-    public Student Student { get; set; } = null!;
+    public virtual Student Student { get; set; } = null!;
 
-    public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    public virtual ICollection<Payment> Payments { get; set; }
+        = new List<Payment>();
 }
