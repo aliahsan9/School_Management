@@ -117,13 +117,10 @@ ss Module
 - Calculate paid / remaining amount
 - Track payments
 
----
 
 ## Setup Instructions
 
 ### 1. Clone Repository
-
-```bash
 
 git clone https://github.com/your-repo/school-management-backend.git
 cd school-management-backend
