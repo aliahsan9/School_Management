@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using SchoolManagement.Application.DTOs.Fees;
 using SchoolManagement.Application.Interfaces;
 
@@ -18,10 +19,17 @@ public class FeesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateFeeDto dto)
+    public async Task<IActionResult> Create(
+        [FromBody] CreateFeeDto dto
+    )
     {
         var id = await _feeService.CreateFeeAsync(dto);
-        return Ok(new { FeeId = id });
+
+        return Ok(new
+        {
+            feeId = id,
+            message = "Fee created successfully"
+        });
     }
 
     [HttpGet]
