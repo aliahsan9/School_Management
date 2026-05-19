@@ -2,11 +2,11 @@
 
 public class StudentClass
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid? Id { get; set; } = Guid.NewGuid();
 
-    public Guid StudentId { get; set; }
+    public Guid? StudentId { get; set; }
 
-    public Guid ClassId { get; set; }
+    public Guid? ClassId { get; set; }
 
     public string AcademicYear { get; set; } = string.Empty;
 
