@@ -161,3 +161,100 @@ If schema changes occur:
 dotnet ef migrations add UpdatedSchema
 dotnet ef database update
 
+API Authentication
+
+This system uses JWT authentication.
+
+Login Flow:
+User logs in
+Backend generates JWT token
+Token is sent in request headers
+
+Authorization: Bearer YOUR_TOKEN
+
+API Endpoints
+Students
+
+GET    /api/students
+GET    /api/students/{id}
+POST   /api/students
+PUT    /api/students/{id}
+DELETE /api/students/{id}
+
+Attendance
+
+POST /api/attendance/mark
+GET  /api/attendance/class?classId={id}&date={date}
+GET  /api/attendance/student/{studentId}
+
+Fees
+
+GET  /api/fees
+GET  /api/fees/{id}
+POST /api/fees
+Teachers
+
+GET    /api/teachers
+POST   /api/teachers
+PUT    /api/teachers/{id}
+DELETE /api/teachers/{id}
+
+Common Issues & Fixes
+1. 400 Bad Request (API errors)
+
+Usually caused by:
+
+Missing required fields
+Invalid DTO structure
+Enum mismatch (int vs string)
+2. Attendance "dummy-id" error
+Do NOT use fake GUIDs
+Always pass real StudentId from database
+3. Update not working
+
+Ensure:
+
+Entity is tracked
+SaveChangesAsync() is called
+Correct ID is passed
+4. CORS Issues
+
+Enable in Program.cs:
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+app.UseCors("AllowAll");
+
+
+Performance Notes
+Use AsNoTracking() for read-only queries
+Avoid unnecessary Include() calls
+Use DTOs instead of exposing entities
+Keep services thin and focused
+Future Improvements
+Pagination for all list endpoints
+Redis caching for dashboard stats
+Advanced reporting module
+File upload for student profiles
+Notification system
+Role-based menu access in frontend
+Audit logging system
+License
+
+This project is for educational and internal use. Modify it freely for academic or production needs.
+
+Author
+
+Developed as part of a full-stack School Management System using:
+
+ASP.NET Core Backend
+Angular Frontend
