@@ -98,7 +98,8 @@ SchoolManagement
 - CRUD operations
 - Subject assignment (if implemented)
 
-### Class Module
+### Cla
+ss Module
 - Class creation
 - Teacher assignment
 
@@ -123,6 +124,7 @@ SchoolManagement
 ### 1. Clone Repository
 
 ```bash
+
 git clone https://github.com/your-repo/school-management-backend.git
 cd school-management-backend
 
@@ -135,3 +137,27 @@ SQL Server running
 3. Configure Database
 
 Update appsettings.json:
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=YOUR_SERVER;Database=SchoolDB;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "Jwt": {
+    "Key": "YOUR_SECRET_KEY",
+    "Issuer": "SchoolAPI",
+    "Audience": "SchoolClient"
+  }
+}
+
+Database Migrations
+
+Run the following commands:
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+If schema changes occur:
+
+dotnet ef migrations add UpdatedSchema
+dotnet ef database update
+
