@@ -6,5 +6,6 @@ public class MarkAttendanceDto
 
     public DateTime Date { get; set; }
 
-    public List<StudentAttendanceDto> Students { get; set; } = new();
+    public List<StudentAttendanceDto> Students { get; set; }
+        = new();
 }

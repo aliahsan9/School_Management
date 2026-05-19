@@ -1,8 +1,12 @@
-﻿namespace SchoolManagement.Application.DTOs.Attendance;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SchoolManagement.Application.DTOs.Attendance;
 
 public class StudentAttendanceDto
 {
+    [Required]
     public Guid StudentId { get; set; }
 
-    public int Status { get; set; } // Present, Absent, Late, Leave
+    [Required]
+    public int Status { get; set; }
 }
